@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { getEnvVaribales } from '../helpers';
+import { getEnvVariables } from '../helpers';
 
-const { VITE_API_URL } = getEnvVaribales();
+const { VITE_API_URL } = getEnvVariables();
 
-const calendarAPI = axios.create({
-    baseUrl: VITE_API_URL
+const calendarApi = axios.create({
+    baseURL: VITE_API_URL
 });
 
 // TODO: Configurar interceptores de axios
 
-export default calendarAPI;
+export default calendarApi;
