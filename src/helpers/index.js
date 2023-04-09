@@ -1,4 +1,4 @@
 
 export * from './calendarLocalizer';
-export * from './getEnvVaribales';
+export * from './getEnvVariables';
 export * from './getMessage'
