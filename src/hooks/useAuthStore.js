@@ -4,7 +4,7 @@ import { clearErrorMessage, onChecking, onLogin, onLogout } from '../store';
 
 
 export const useAuthStore = () => {
-    const { state, user, errorMessage } = useSelector( state => state.auth );
+    const { status, user, errorMessage } = useSelector( state => state.auth );
     const dispatch = useDispatch();
 
     /* Proceso de login */
@@ -49,12 +49,31 @@ export const useAuthStore = () => {
         }
     }
 
+    const checkAuthToken = async() => {
+        const token = localStorage.getItem('token');
+
+        if( !token ) return dispatch( onLogout() );
+
+        try {
+            const { data } = await calendarApi.get('/auth/renew');
+
+            localStorage.setItem( 'token', data.token );
+            localStorage.setItem( 'token-init-date', new Date().getTime() );
+
+            dispatch( onLogin({ name: data.name, uid: data.uid }) );
+        } catch (error) {
+            localStorage.clear();
+            dispatch( onLogout() );
+        }
+    }
+
     return {
         //* Propiedades
         errorMessage,
-        state, 
+        status, 
         user, 
         //* Métodos
+        checkAuthToken,
         startLogin,
         startRegister
     }
