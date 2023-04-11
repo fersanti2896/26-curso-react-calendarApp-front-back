@@ -49,11 +49,13 @@ export const useAuthStore = () => {
         }
     }
 
+    /* Proceso de renovar el token */
     const checkAuthToken = async() => {
         const token = localStorage.getItem('token');
 
         if( !token ) return dispatch( onLogout() );
 
+        /* Proceso al backend */
         try {
             const { data } = await calendarApi.get('/auth/renew');
 
@@ -67,6 +69,12 @@ export const useAuthStore = () => {
         }
     }
 
+    const startLogout = () => {
+        localStorage.clear();
+        
+        dispatch( onLogout() );
+    }
+
     return {
         //* Propiedades
         errorMessage,
@@ -75,6 +83,7 @@ export const useAuthStore = () => {
         //* Métodos
         checkAuthToken,
         startLogin,
+        startLogout,
         startRegister
     }
 }
